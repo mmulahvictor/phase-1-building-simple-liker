@@ -1,10 +1,34 @@
 // Defining text characters for the empty and full hearts for you to use later.
-const EMPTY_HEART = '♡'
-const FULL_HEART = '♥'
+const emptyHeart = '♡'
+const checkedHeart = '♥'
 
 // Your JavaScript code goes here!
 
+const articleHearts = document.querySelectorAll(".like-glyph");
 
+function likeCallback(e) {
+  const likeButton = e.target;
+  mimicServerCall("bogusUrl")
+    .then(function(){
+      if ( likeButton.innerText === emptyHeart) {
+        likeButton.innerText = checkedHeart;
+        likeButton.className = "activated-heart";
+      } else {
+        likeButton.innerText = emptyHeart;
+        likeButton.className = "";
+      }
+    })
+    .catch(function(error) {
+      const modal = document.getElementById("modal");
+      modal.className = "";
+      modal.innerText = error;
+      setTimeout(() =>  modal.className = "hidden", 3000);
+    });
+}
+
+for (const glyph of articleHearts) {
+  glyph.addEventListener("click", likeCallback);
+}
 
 
 //------------------------------------------------------------------------------
